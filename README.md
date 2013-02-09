@@ -53,6 +53,20 @@ public void run(BlahBlahConfiguration configuration, Environment environment) th
 }
 ```
 
-### Enjoy a cold beer.
+### Use `@Auth UserDetails userDetails` in your JAX-RS controllers.
+
+We're going to inject the Spring Security `UserDetails` context into your controllers (why invent a new `User` object?).
+
+```java
+@GET
+@Timed
+@Path("/chitty-chat/{topic}")
+public ChittyChat getChittyChatOnTopic(@Auth UserDetails user, @PathParam("topic") String topic){
+   // ... get Chitty-Chat ...
+}
+
+```
+
+### Enjoy a cold beer, you deserve it.
 
 You're done.  Muck with the Spring ApplicationContext "outside" of Dropwizard.
