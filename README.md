@@ -10,23 +10,23 @@ We also wanted the rich features of Spring Security, which includes support for 
 
 ### Configure Spring Security in your applicationContext.xml
 
-Here is an example for Certificate-base authentication
+Here is an example for Certificate-based authentication
 
 ```xml
 <security:http>
-  	<security:intercept-url pattern="/*" access="ROLE_USER" />
-    <security:intercept-url pattern="/admin/*" access="ROLE_ADMIN" />
-		<security:x509 subject-principal-regex="CN=(.*?)," />
-	</security:http>
+  <security:intercept-url pattern="/*" access="ROLE_USER" />
+  <security:intercept-url pattern="/admin/*" access="ROLE_ADMIN" />
+  <security:x509 subject-principal-regex="CN=(.*?)," />
+</security:http>
  
-	<security:authentication-manager>
-	   <security:authentication-provider>
-	       <security:user-service>
-		   		<security:user name="Super Awesome Client" authorities="ROLE_USER" />
-           <security:user name="The Boss" authorities="ROLE_USER, ROLE_ADMIN" />
-	       </security:user-service>
-	   </security:authentication-provider>
-	</security:authentication-manager>
+<security:authentication-manager>
+  <security:authentication-provider>
+    <security:user-service>
+      <security:user name="Super Awesome Client" authorities="ROLE_USER" />
+      <security:user name="The Boss" authorities="ROLE_USER, ROLE_ADMIN" />
+    </security:user-service>
+  </security:authentication-provider>
+</security:authentication-manager>
 ```
 
 ### Initialize your Spring Application Context.  
@@ -35,21 +35,21 @@ Initialize your Spring Application Context in your Dropwizard `Service` class.  
 
 ```java
 ApplicationContext applicationContext = 
-  		new FileSystemXmlApplicationContext(
-				configuration.getSpringApplicationContext());
+  new FileSystemXmlApplicationContext(
+    configuration.getSpringApplicationContext());
 ```
 
-### Register Spring Security with the DropWizard `Environment`.
+### Register Spring Security with the Dropwizard `Environment`.
 
 ```java
 @Override
 public void run(BlahBlahConfiguration configuration, Environment environment) throws Exception {
 		
-	ApplicationContext applicationContext = 
-		new FileSystemXmlApplicationContext(
-			configuration.getSpringApplicationContext());
+  ApplicationContext applicationContext = 
+    new FileSystemXmlApplicationContext(
+      configuration.getSpringApplicationContext());
 	
-	new SpringSecurityAuthProvider(applicationContext).registerProvider(environment);
+  new SpringSecurityAuthProvider(applicationContext).registerProvider(environment);
 }
 ```
 
@@ -61,10 +61,9 @@ We're going to inject the Spring Security `UserDetails` context into your contro
 @GET
 @Timed
 @Path("/chitty-chat/{topic}")
-public ChittyChat getChittyChatOnTopic(@Auth UserDetails user, @PathParam("topic") String topic){
+public ChittyChat getChittyChatOnTopic(@Auth UserDetails userDetails, @PathParam("topic") String topic){
    // ... get Chitty-Chat ...
 }
-
 ```
 
 ### Enjoy a cold beer, you deserve it.
