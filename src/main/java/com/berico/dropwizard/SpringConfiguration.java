@@ -9,9 +9,9 @@ public class SpringConfiguration extends Configuration {
 
 	@NotEmpty
 	@JsonProperty
-	private String applicationContext;
+	private String[] applicationContext;
 
-	public String getApplicationContext() {
+	public String[] getApplicationContext() {
 		
 		return applicationContext;
 	}
