@@ -1,6 +1,15 @@
-# Dropwizard Utils
+# Fallwizard
 
-Essential utilities for the Dropwizard Framework, including Spring Security integration.
+We love Spring Framework because it simplified Enterprise Java.  We love Dropwizard because it simplified App Servers.  What if these two frameworks made sweet-sweet love?  Well, you would get Fallwizard.
+
+Ok seriously...
+
+Fallwizard is the integration of Spring with Dropwizard.  This gives us the following benefits we were missing when using pure Dropwizard:
+
+* Ability to support complex configurations outside of the yaml mechanism (i.e. we need more dynamicism).
+* Better support for complex authentication and authorization environments.
+
+> This is not a condemnation of Dropwizard.  Most organizations don't need the flexibility we need in configuration and security.
 
 ## Spring Security Integration
 
