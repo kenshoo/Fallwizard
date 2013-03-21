@@ -1,6 +1,6 @@
 # Fallwizard
 
-We love Spring Framework because it simplified Enterprise Java.  We love Dropwizard because it simplified App Servers.  What if these two frameworks made sweet-sweet love?  Well, you would get Fallwizard.
+We love Spring Framework because it simplified Enterprise Java.  We love Dropwizard because it simplified App Servers.  What if these two frameworks made sweet-sweet love and had a child?  Well, you would get Fallwizard.
 
 Ok seriously...
 
@@ -11,7 +11,21 @@ Fallwizard is the integration of Spring with Dropwizard.  This gives us the foll
 
 > This is not a condemnation of Dropwizard.  Most organizations don't need the flexibility we need in configuration and security.
 
-## Spring Security Integration
+## Features
+
+* Define Resources, Healthchecks, Tasks, etc. in Spring, and have them automatically bootstrapped in Dropwizard.
+* Utilize Spring Security (out of the box) and have it applied to Dropwizard routes.
+* Automatically inject a Spring Security UserDetails object into REST methods using Dropwizard's `@Auth` annotation.
+
+
+## Using Fallwizard
+
+### Configuring Fallwizard
+
+
+
+
+### Spring Security Integration
 
 We needed certificated-based client authentication, but didn't want to force BasicAuth when we were already using SSL just so we could inject an object (i.e. `@Auth`) in our JAX-RS controllers.
 
