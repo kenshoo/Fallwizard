@@ -2,17 +2,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.berico.dropwizard</groupId>
-	<artifactId>utils</artifactId>
+	<groupId>com.berico</groupId>
+	<artifactId>fallwizard</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>utils</name>
-	<url>https://github.com/Berico-Technologies/Dropwizard-Utils</url>
+	<name>Fallwizard</name>
+	<url>https://github.com/Berico-Technologies/Fallwizard</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<dropwizard.version>0.6.1</dropwizard.version>
+		<dropwizard.version>0.6.2</dropwizard.version>
 		<spring.security.version>3.1.3.RELEASE</spring.security.version>
 	</properties>
 
