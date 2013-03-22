@@ -60,7 +60,6 @@ public abstract class SpringService<T extends SpringConfiguration> extends Servi
 				.registerProvider(environment);
 		}
 		
-		
 		registerManaged(environment);
         registerLifecycle(environment);
         registerTasks(environment);
@@ -69,6 +68,12 @@ public abstract class SpringService<T extends SpringConfiguration> extends Servi
         registerResources(environment);
 	}
 	
+	/**
+	 * Little utility to concatenate strings with a separator.
+	 * @param strings Strings to join
+	 * @param separator Separator between strings
+	 * @return Joined String
+	 */
 	String join(String[] strings, String separator){
 		
 		StringBuilder sb = new StringBuilder();

@@ -6,6 +6,12 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**
+ * If anonymous users are allowed, this is used to represent
+ * that class of user.
+ * 
+ * @author Richard Clayton (Berico Technologies)
+ */
 public class AnonymousUserDetails implements UserDetails {
 	
 	private static final long serialVersionUID = -7347714058551005612L;

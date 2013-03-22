@@ -23,6 +23,12 @@ import com.sun.jersey.spi.inject.InjectableProvider;
 import com.yammer.dropwizard.auth.Auth;
 import com.yammer.dropwizard.config.Environment;
 
+/**
+ * This is used to inject the UserDetails object into REST
+ * endpoint functions when the @Auth annotation is used.
+ * 
+ * @author Richard Clayton (Berico Technologies)
+ */
 public class SpringSecurityAuthProvider implements InjectableProvider<Auth, Parameter> {
 
 	
