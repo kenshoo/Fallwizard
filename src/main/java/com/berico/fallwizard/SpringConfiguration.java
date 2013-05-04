@@ -7,8 +7,8 @@ import com.yammer.dropwizard.config.Configuration;
 
 /**
  * Spring Configuration, which determines whether to use
- * Spring Security and the location of the Application
- * Context files.
+ * Spring Security, the location of the Application
+ * Context files, and what Bean Profiles to use.
  * 
  * @author Richard Clayton (Berico Technologies)
  */
@@ -28,6 +28,19 @@ public class SpringConfiguration extends Configuration {
 		this.applicationContext = contextFiles;
 	}
 
+	@JsonProperty
+	protected String[] beanProfiles;
+	
+	public String[] getBeanProfiles(){
+		
+		return this.beanProfiles;
+	}
+	
+	public void setBeanProfiles(String[] beanProfiles){
+		
+		this.beanProfiles = beanProfiles;
+	}
+	
 	@JsonProperty
 	protected boolean useSpringSecurity = false;
 

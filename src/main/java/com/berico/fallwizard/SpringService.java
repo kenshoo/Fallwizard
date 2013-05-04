@@ -12,8 +12,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
 
 import com.berico.fallwizard.auth.SpringSecurityAuthProvider;
 import com.yammer.dropwizard.Service;
@@ -35,7 +34,8 @@ public abstract class SpringService<T extends SpringConfiguration> extends Servi
 
 	private static final Logger logger = LoggerFactory.getLogger(SpringService.class);
 	
-	protected ApplicationContext applicationContext;
+	// Instantiate the Spring Application Context
+	protected GenericXmlApplicationContext applicationContext = new GenericXmlApplicationContext();;
 	
 	@Override
 	public void initialize(Bootstrap<T> bootstrap) {}
@@ -47,10 +47,21 @@ public abstract class SpringService<T extends SpringConfiguration> extends Servi
 		logger.info("Using configurations: {}", 
 			join(configuration.getApplicationContext(), ", "));
 		
-		// Instantiate the Spring Application Context
-		applicationContext = 
-				new FileSystemXmlApplicationContext(
-					configuration.getApplicationContext());
+		for (String applicationContextFile : configuration.getApplicationContext()){
+			
+			applicationContext.load(applicationContextFile);
+		}
+		
+		// If Spring Bean Profiles are defined, register the profiles.
+		if (configuration.getBeanProfiles() != null){
+			
+			logger.info("Using profiles: {}", join(configuration.getBeanProfiles(), ", "));
+			
+			applicationContext.getEnvironment()
+				.setActiveProfiles(configuration.getBeanProfiles());
+		}
+		
+		applicationContext.refresh();
 		
 		// If we should use Spring Security
 		if (configuration.shouldUseSpringSecurity()){
