@@ -34,6 +34,10 @@ public abstract class SpringService<T extends SpringConfiguration> extends Servi
 
 	private static final Logger logger = LoggerFactory.getLogger(SpringService.class);
 	
+	// If a prefix is missing on the location of an Application Context file
+	// the default resource type will be a file.
+	public static String DEFAULT_RESOURCE_TYPE = "file";
+	
 	// Instantiate the Spring Application Context
 	protected GenericXmlApplicationContext applicationContext = new GenericXmlApplicationContext();;
 	
@@ -49,7 +53,8 @@ public abstract class SpringService<T extends SpringConfiguration> extends Servi
 		
 		for (String applicationContextFile : configuration.getApplicationContext()){
 			
-			applicationContext.load(applicationContextFile);
+			applicationContext.load(
+					normalizeForResourceLocation(applicationContextFile));
 		}
 		
 		// If Spring Bean Profiles are defined, register the profiles.
@@ -95,6 +100,20 @@ public abstract class SpringService<T extends SpringConfiguration> extends Servi
 		}
 		
 		return sb.delete(sb.length() - separator.length(), sb.length()).toString();
+	}
+	
+	String normalizeForResourceLocation(String contextLocation){
+		
+		boolean hasResource = contextLocation.startsWith("file") 
+				|| contextLocation.startsWith("classpath")
+				|| contextLocation.startsWith("url");
+		
+		if (!hasResource){
+			
+			return String.format("%s:%s", DEFAULT_RESOURCE_TYPE, contextLocation);
+		}
+		
+		return contextLocation;
 	}
 	
 	/**
