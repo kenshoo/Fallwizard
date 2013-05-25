@@ -19,7 +19,7 @@ repositories {
 dependencies {
 
 	ext.dropwizardversion = '0.6.2'
-	ext.springsecurityversion = '3.1.4.RELEASE'
+	ext.springsecurityversion = '3.2.0.M1'
 
 
 	compile("com.yammer.dropwizard:dropwizard-core:${ext.dropwizardversion}")
