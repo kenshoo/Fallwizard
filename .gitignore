@@ -1,5 +1,9 @@
 target/
 build/
+.idea
 .classpath
 .project
 .gradle
+
+fallwizard.iml
+
