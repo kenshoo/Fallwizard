@@ -1,4 +1,6 @@
-package com.berico.fallwizard;
+package com.bericotech.fallwizard;
+
+import com.bericotech.fallwizard.configuration.FallwizardConfiguration;
 
 /**
  * If you have no need to supply custom configuration or functionality
@@ -6,7 +8,7 @@ package com.berico.fallwizard;
  * 
  * @author Richard Clayton (Berico Technologies)
  */
-public class Fallwizard extends SpringService<SpringConfiguration> {
+public class Fallwizard extends FallwizardService<FallwizardConfiguration> {
 
 	public static void main( String[] args ) throws Exception
     {
