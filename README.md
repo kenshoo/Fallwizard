@@ -261,6 +261,6 @@ public void run(BlahBlahConfiguration configuration, Environment environment) th
 
 
 
-## Enjoy a cold beer, you deserve it.
+## Enjoy a cold drink, you deserve it.
 
 You're done.  Now you can muck with the Spring ApplicationContext "outside" of Dropwizard.
