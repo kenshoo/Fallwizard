@@ -18,9 +18,9 @@ __Maven Dependency__
 
 <dependencies>
   <dependency>
-    <groupId>com.berico</groupId>
+    <groupId>com.bericotech</groupId>
     <artifactId>fallwizard</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
   </dependency>
 </dependencies>
 ```
@@ -55,6 +55,14 @@ Spring -> Fall <- Drop...wizard.  Get it?  (Ok, it's corny.)
 
 ## Changelog
 
+
+#### Release 1.2.0
+
+* Fixed a bug with the bean profiles
+* Changed berico package-name and artifact group to use bericotech  (e.g. maven group is now com.bericotech)
+* Restructured the configuration file so that the spring configuration elements follow the DropWizard pattern and are organized in their own section.  See the example YAML configuration file below.
+* Added the ability to inject properties/specify property location files into Spring context directly from the YAML config file.
+
 #### Release 1.1.0
 
 * Added Support for Bean Profiles.  Now you can specify a "beanProfiles" property (Array of String) in the Yaml config to specify the Bean Profiles you want to use.  This should eliminate the need of maintaining different lists of context files for production/dev/integation configurations.
@@ -87,25 +95,76 @@ https://github.com/Berico-Technologies/dropwizard-gradle-plugin
 
 #### Fallwizard Conventions
 
-Instead of using Dropwizard's `Service` and `Configuration` classes, you should extend (if you want) `SpringService` and `SpringConfiguration`.  If you set your configuration values and wireup your resources in Spring, you actually don't need to extend `SpringService` (just specify this as your main class in Maven/Gradle).  
+Instead of using Dropwizard's `Service` and `Configuration` classes, you should extend (if you want) `FallwizardService` and `FallwizardConfiguration`.  If you set your configuration values and wireup your resources in Spring, you actually don't need to extend `FallwizardService` (just specify this as your main class in Maven/Gradle).
 
-If you need to add Dropwizard bundles to your service, you will need to extend `SpringService`; please remember to call `super` on any method you override.
+If you need to add Dropwizard bundles to your service, you will need to extend `FallwizardService`; please remember to call `super` on any method you override.
 
 #### Yaml Configuration
 
 ```yaml
-# Application Contexts to Load.
-applicationContext: ['conf/applicationContext.xml', 'file:conf/basicAuthSecurityContext.xml', 
-     'classpath:sprocketContext.xml', 'url:http://conf.berico.us/sproket-manager/context.xml']
+# Spring Specific Configuration
+spring:
+    # Application Contexts to Load.
+    applicationContext: ['conf/applicationContext.xml', 'file:conf/basicAuthSecurityContext.xml',
+    'classpath:sprocketContext.xml', 'url:http://conf.berico.us/sproket-manager/context.xml']
 
-# Spring Bean Profiles to use.
-beanProfiles: ['production', 'feature1', 'feature2']
+    # [Optional] Which bean profiles to use?
+    #  Bean Profiles allow you to alter the beans which the application
+    #  context files uses/instantiates based on your arranged profile.
+    #  Think "dev", "test", "production" as typical system profiles
+    #  and/or choosing between bing/google/other configurations
+    #  as example feature profiles.
+    #
+    #  See http://spring.io/blog/2011/02/11/spring-framework-3-1-m1-released/  as a good referene.
+    #
+    beanProfiles: ['production', 'feature1', 'feature2']
 
-# Should Spring Security be used?
-useSpringSecurity: true
+    # Should Spring Security be used?
+    useSpringSecurity: true
+
+    # [Optional] Allow property injection based on this YAML file.
+    # Sometimes you wish the YAML configuration to affect the configuration of the
+    # Spring file, and this allows you to set the property values directly in this
+    # YAML file, or which property files should be used from the YAML file.
+    #
+    # See (for more info about behavior):
+    # http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/config/PropertyPlaceholderConfigurer.html
+    #
+    propertyPlaceholderConfigurer:
+
+         # [Optional] Defaults to: false
+         # use this if you wish to ignore properties that don't resolve
+         # (E.g. ${property.notfound}  will not cause an error.
+         # This is useful when there are other PropertyPlaceholderConfigurers
+         # in the Spring Files.
+         ignoreUnresolvablePlaceholders: true
+
+         # [Optional] Again useful with other PropertyPlaecholder Configurers, this
+         # sets the ordering of resolution (to determine which Configurer
+         # overwrites values set by previous configurers.)  Only useful if you
+         # know the order of embedded PropertyPlaceHolder configurers.
+         order: 123
+
+         # [Optional]
+         # Set properties directly, that will then be available in the
+         # application context files in bean parameters like
+         #    value="${encrypted.passwd}"
+         properties:
+             "property.key": "my magic key"
+             "property.value": "my magic box"
+             "encrytped.passwd" : "<my encrypted password>"
+             "some.other.property" : "with its magic value"
+             "etc" : "etc value!"
+
+         # [Optional]
+         # You can specify a LIST of property files (which in turn just have straight properties).
+         locations:
+             - file:/my/home/path/config/production.properties
+             - file:/my/home/path/config/googleMaps.properties
 
 # This might be a custom property of yours if you extended SpringConfiguration.
 exampleProperty: This was your example property
+
 
 ########## Everything else is basic Dropwizard ###################
 
@@ -114,7 +173,7 @@ logging:
     console:
         enabled: true
         threshold: DEBUG
-        
+
 http:
     port: 8080
     adminUsername: admin
@@ -144,7 +203,7 @@ _Example for Certificate-based authentication_
   <security:intercept-url pattern="/admin/*" access="ROLE_ADMIN" />
   <security:x509 subject-principal-regex="CN=(.*?)," />
 </security:http>
- 
+
 <security:authentication-manager>
   <security:authentication-provider>
     <security:user-service>
@@ -174,14 +233,15 @@ That's it!
 
 If you don't like our stuff and prefer to just using Spring Security, you will need to register the `SpringSecurityAuthProvider` with Dropwizard manually.  It looks something like this:
 
-#### Initialize your Spring Application Context.  
+#### Initialize your Spring Application Context.
 
 Initialize your Spring Application Context in your Dropwizard `Service` class.  We explicitly require the location of the `applicationContext` in our Dropwizard `Configuration` class.
 
 ```java
-ApplicationContext applicationContext = 
+SpringConfiguration springConfig = configuration.getSpringConfiguration();
+ApplicationContext applicationContext =
   new FileSystemXmlApplicationContext(
-    configuration.getSpringApplicationContext());
+    springConfig.getSpringApplicationContext());
 ```
 
 #### Register Spring Security with the Dropwizard `Environment`.
@@ -189,17 +249,18 @@ ApplicationContext applicationContext =
 ```java
 @Override
 public void run(BlahBlahConfiguration configuration, Environment environment) throws Exception {
-		
-  ApplicationContext applicationContext = 
+
+  SpringConfiguration springConfig = configuration.getSpringConfiguration();
+  ApplicationContext applicationContext =
     new FileSystemXmlApplicationContext(
-      configuration.getSpringApplicationContext());
-	
+      springConfig.getSpringApplicationContext());
+
   new SpringSecurityAuthProvider(applicationContext).registerProvider(environment);
 }
 ```
 
 
 
-## Enjoy a cold beer, you deserve it.
+## Enjoy a cold drink, you deserve it.
 
 You're done.  Now you can muck with the Spring ApplicationContext "outside" of Dropwizard.

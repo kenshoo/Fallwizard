@@ -1,4 +1,4 @@
-package com.berico.fallwizard;
+package com.bericotech.fallwizard.configuration;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -13,6 +13,7 @@ import com.yammer.dropwizard.config.Configuration;
  * @author Richard Clayton (Berico Technologies)
  */
 public class SpringConfiguration extends Configuration {
+
 
 	@NotEmpty
 	@JsonProperty
@@ -53,4 +54,11 @@ public class SpringConfiguration extends Configuration {
 		
 		this.useSpringSecurity = shouldUse;
 	}
+
+    @JsonProperty("propertyPlaceholderConfigurer")
+    protected SpringPropertyPlaceholderConfigurerConfiguration placeholderConfiguration;
+
+    public SpringPropertyPlaceholderConfigurerConfiguration getPlaceholderConfiguration() {
+        return placeholderConfiguration;
+    }
 }

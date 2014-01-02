@@ -1,4 +1,4 @@
-package com.berico.fallwizard.auth;
+package com.bericotech.fallwizard.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;

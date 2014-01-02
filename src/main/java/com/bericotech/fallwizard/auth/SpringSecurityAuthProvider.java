@@ -1,6 +1,5 @@
-package com.berico.fallwizard.auth;
+package com.bericotech.fallwizard.auth;
 
-import javax.servlet.Filter;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -11,7 +10,6 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
 import com.sun.jersey.api.core.HttpContext;
