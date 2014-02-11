@@ -1,9 +1,14 @@
 package com.bericotech.fallwizard.auth;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
+import com.sun.jersey.api.core.HttpContext;
+import com.sun.jersey.api.model.Parameter;
+import com.sun.jersey.core.spi.component.ComponentContext;
+import com.sun.jersey.core.spi.component.ComponentScope;
+import com.sun.jersey.server.impl.inject.AbstractHttpContextInjectable;
+import com.sun.jersey.spi.inject.Injectable;
+import com.sun.jersey.spi.inject.InjectableProvider;
+import com.yammer.dropwizard.auth.Auth;
+import com.yammer.dropwizard.config.Environment;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,17 +20,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
-import com.sun.jersey.api.core.HttpContext;
-import com.sun.jersey.api.model.Parameter;
-import com.sun.jersey.core.spi.component.ComponentContext;
-import com.sun.jersey.core.spi.component.ComponentScope;
-import com.sun.jersey.server.impl.inject.AbstractHttpContextInjectable;
-import com.sun.jersey.spi.inject.Injectable;
-import com.sun.jersey.spi.inject.InjectableProvider;
-import com.yammer.dropwizard.auth.Auth;
-import com.yammer.dropwizard.config.Environment;
-
-import java.util.Collection;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.Map;
 
 /**
@@ -66,7 +63,7 @@ public class SpringSecurityAuthProvider implements InjectableProvider<Auth, Para
 
                 FilterChainProxy proxy = entry.getValue();
 
-                environment.addFilter(proxy, "/*").setName(proxy.getFilterConfig().getFilterName());
+                environment.addFilter(proxy, "/*").setName(entry.getKey());
             }
         }
         else {
@@ -116,6 +113,7 @@ public class SpringSecurityAuthProvider implements InjectableProvider<Auth, Para
 				throw new WebApplicationException(
 					Response
 						.status(Response.Status.UNAUTHORIZED)
+                        .header("WWW-Authenticate", "Basic realm=\"innovationgateway.com\"")
 						.entity("Credentials are required to access this resource.")
 	                    .type(MediaType.TEXT_PLAIN_TYPE)
 	                    .build());
