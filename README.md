@@ -30,6 +30,8 @@ mvn archetype:generate  \
   -DarchetypeCatalog=http://nexus.bericotechnologies.com/content/repositories/releases/archetype-catalog.xml
 ```
 
+**Importante!:** - the Fallwizard 1.1 archetype is in the package `com.berico`; this is deprecated and only available as a courtesy to those who have not read this message.  New users should use use the archetype with the package `com.bericotech`, which uses Fallwizard v1.2 (LATEST).
+
 ## Why?
 
 We love Spring Framework because it simplified Enterprise Java.  We love Dropwizard because it simplified App Servers.  What if these two frameworks made sweet-sweet love and had a child?  Well, you would get Fallwizard.
