@@ -5,11 +5,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.eclipse.jetty.server.session.SessionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.FilterChainProxy;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
 import com.sun.jersey.api.core.HttpContext;
@@ -22,6 +25,9 @@ import com.sun.jersey.spi.inject.InjectableProvider;
 import com.yammer.dropwizard.auth.Auth;
 import com.yammer.dropwizard.config.Environment;
 
+import java.util.Collection;
+import java.util.Map;
+
 /**
  * This is used to inject the UserDetails object into REST
  * endpoint functions when the @Auth annotation is used.
@@ -30,7 +36,8 @@ import com.yammer.dropwizard.config.Environment;
  */
 public class SpringSecurityAuthProvider implements InjectableProvider<Auth, Parameter> {
 
-	
+    private static final Logger logger = LoggerFactory.getLogger(SpringSecurityAuthProvider.class);
+
 	ApplicationContext applicationContext;
 	
 	public SpringSecurityAuthProvider(ApplicationContext applicationContext){
@@ -48,8 +55,26 @@ public class SpringSecurityAuthProvider implements InjectableProvider<Auth, Para
 	}
 	
 	protected void registerSpringSecurityFilters(Environment environment){
-		DelegatingFilterProxy proxy = new DelegatingFilterProxy();
-		environment.addFilter(DelegatingFilterProxy.class, "/*").setName("springSecurityFilterChain");
+
+        Map<String, FilterChainProxy> proxies = applicationContext.getBeansOfType(FilterChainProxy.class);
+
+        if (proxies != null){
+
+            for (Map.Entry<String, FilterChainProxy> entry : proxies.entrySet()){
+
+                logger.info("Found FilterChainProxy with Bean ID: {}", entry.getKey());
+
+                FilterChainProxy proxy = entry.getValue();
+
+                environment.addFilter(proxy, "/*").setName(proxy.getFilterConfig().getFilterName());
+            }
+        }
+        else {
+
+            logger.warn("No FilterChainProxy found, using DelegatingFilterProxy instead.");
+
+            environment.addFilter(DelegatingFilterProxy.class, "/*").setName("springSecurityFilterChain");
+        }
 	}
 	
 	@Override
