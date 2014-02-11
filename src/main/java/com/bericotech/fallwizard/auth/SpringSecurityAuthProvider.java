@@ -113,7 +113,6 @@ public class SpringSecurityAuthProvider implements InjectableProvider<Auth, Para
 				throw new WebApplicationException(
 					Response
 						.status(Response.Status.UNAUTHORIZED)
-                        .header("WWW-Authenticate", "Basic realm=\"innovationgateway.com\"")
 						.entity("Credentials are required to access this resource.")
 	                    .type(MediaType.TEXT_PLAIN_TYPE)
 	                    .build());
