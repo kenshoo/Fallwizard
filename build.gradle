@@ -39,13 +39,11 @@ uploadArchives {
     repositories {
         mavenDeployer {
             repository(url: "http://nexus.bericotechnologies.com/content/repositories/releases/") {
-		authentication(userName: berico_nexusUsername, password: berico_nexusPassword)
-	    }
-        }
-        mavenDeployer {
-            repository(url: "http://nexus.bericotechnologies.com/content/repositories/snapshots") {
-		authentication(userName: berico_nexusUsername, password: berico_nexusPassword)
-	    }
+		        authentication(userName: berico_nexusUsername, password: berico_nexusPassword)
+	        }
+            snapshotRepository(url: "http://nexus.berico.us/content/repositories/snapshots/") {
+                authentication(userName: berico_nexusUsername, password: berico_nexusPassword)
+            }
         }
     }
 }
