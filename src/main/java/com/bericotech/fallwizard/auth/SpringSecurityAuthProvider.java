@@ -14,12 +14,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.FilterChainProxy;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
+import javax.servlet.Filter;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -33,6 +36,7 @@ import java.util.Map;
  */
 public class SpringSecurityAuthProvider implements InjectableProvider<Auth, Parameter> {
 
+    public static final String DEFAULT_FILTER_BEAN_NAME = "org.springframework.security.filterChainProxy";
     private static final Logger logger = LoggerFactory.getLogger(SpringSecurityAuthProvider.class);
 
 	ApplicationContext applicationContext;
@@ -53,24 +57,17 @@ public class SpringSecurityAuthProvider implements InjectableProvider<Auth, Para
 	
 	protected void registerSpringSecurityFilters(Environment environment){
 
-        Map<String, FilterChainProxy> proxies = applicationContext.getBeansOfType(FilterChainProxy.class);
+        // try to get spring's internal FilterChainProxy
+        Object proxyObject = this.applicationContext.getBean(DEFAULT_FILTER_BEAN_NAME);
 
-        if (proxies != null){
-
-            for (Map.Entry<String, FilterChainProxy> entry : proxies.entrySet()){
-
-                logger.info("Found FilterChainProxy with Bean ID: {}", entry.getKey());
-
-                FilterChainProxy proxy = entry.getValue();
-
-                environment.addFilter(proxy, "/*").setName(entry.getKey());
-            }
+        if (null == proxyObject) {
+            logger.info("No FilterChainProxy found in the spring container, using default DelegatingFilterProxy");
+            environment.addFilter(DelegatingFilterProxy.class, "/*").setName(DEFAULT_FILTER_BEAN_NAME);
         }
         else {
-
-            logger.warn("No FilterChainProxy found, using DelegatingFilterProxy instead.");
-
-            environment.addFilter(DelegatingFilterProxy.class, "/*").setName("springSecurityFilterChain");
+            FilterChainProxy proxy = (FilterChainProxy) proxyObject;
+            logger.info("FilterChainProxy ({}) found, assigning to DelegatingFilterProxy", DEFAULT_FILTER_BEAN_NAME);
+            environment.addFilter(new DelegatingFilterProxy(proxy), "/*");
         }
 	}
 	
@@ -107,15 +104,17 @@ public class SpringSecurityAuthProvider implements InjectableProvider<Auth, Para
 				userDetails =
 						 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			}
-			
+
 			if (userDetails == null && authenticationRequired){
-				
-				throw new WebApplicationException(
-					Response
-						.status(Response.Status.UNAUTHORIZED)
-						.entity("Credentials are required to access this resource.")
-	                    .type(MediaType.TEXT_PLAIN_TYPE)
-	                    .build());
+
+                throw new WebApplicationException(
+                        Response
+                                .status(Response.Status.UNAUTHORIZED)
+                                .entity("Unauthorized")
+                                .header("WWW-Authenticate", "Basic realm='innovationgateway.us'")
+                                .type(MediaType.TEXT_PLAIN)
+                                .build()
+                );
 			} 
 			
 			if (userDetails == null ) {
