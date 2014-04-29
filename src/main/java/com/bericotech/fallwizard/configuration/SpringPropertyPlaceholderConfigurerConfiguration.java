@@ -44,7 +44,7 @@ public class SpringPropertyPlaceholderConfigurerConfiguration extends Configurat
     /**
      * Are properties file resource specifications optional?
      * (E.g. if not found is it an error?)
-     * * Defaults to nor+mal behavior of the configurer if not specified.
+     * * Defaults to normal behavior of the configurer if not specified.
      */
     @Valid
     @JsonProperty
