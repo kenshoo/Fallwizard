@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply from: "intellij.gradle"
 
-version = '1.3.0'
+version = '2.0.0'
 group = 'com.bericotech'
 
 repositories {
@@ -35,17 +35,4 @@ dependencies {
     compile("org.springframework:spring-core:${ext.springversion}")
 
     testCompile("junit:junit:4.10")
-}
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: "http://nexus.bericotechnologies.com/content/repositories/releases/") {
-		        authentication(userName: berico_nexusUsername, password: berico_nexusPassword)
-}
-            snapshotRepository(url: "http://nexus.berico.us/content/repositories/snapshots/") {
-                authentication(userName: berico_nexusUsername, password: berico_nexusPassword)
-            }
-        }
-    }
 }
