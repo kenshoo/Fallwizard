@@ -20,7 +20,7 @@ __Maven Dependency__
   <dependency>
     <groupId>com.bericotech</groupId>
     <artifactId>fallwizard</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
   </dependency>
 </dependencies>
 ```
