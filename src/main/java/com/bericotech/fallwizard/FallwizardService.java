@@ -63,6 +63,19 @@ public class FallwizardService<T extends FallwizardConfiguration> extends Applic
         registerHealthChecks(environment);
         registerProviders(environment);
         registerResources(environment);
+        registerContextAsManaged(environment);
+    }
+
+    private void registerContextAsManaged(Environment environment) {
+        environment.lifecycle().manage (new Managed() {
+            @Override
+            public void start() throws Exception {}
+
+            @Override
+            public void stop() throws Exception {
+                applicationContext.close(); // close the door when you leave
+            }
+        });
     }
 
 

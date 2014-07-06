@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply from: "intellij.gradle"
 
-version = '2.0.0'
+version = '2.1.0'
 group = 'com.bericotech'
 
 repositories {
@@ -38,6 +38,8 @@ dependencies {
 }
 
 uploadArchives {
+    def berico_nexusPassword = project.hasProperty('berico_nexusPassword') ? "$berico_nexusPassword" : ''
+    def berico_nexusUsername = project.hasProperty('berico_nexusUsername') ? "$berico_nexusUsername" : ''
     repositories {
         mavenDeployer {
             repository(url: "http://nexus.bericotechnologies.com/content/repositories/releases/") {
