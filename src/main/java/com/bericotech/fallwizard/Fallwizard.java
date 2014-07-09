@@ -8,7 +8,7 @@ import com.bericotech.fallwizard.configuration.FallwizardConfiguration;
  * 
  * @author Richard Clayton (Berico Technologies)
  */
-public class Fallwizard extends FallwizardService<FallwizardConfiguration> {
+public class Fallwizard extends FallwizardApplication<FallwizardConfiguration> {
 
 	public static void main( String[] args ) throws Exception
     {
