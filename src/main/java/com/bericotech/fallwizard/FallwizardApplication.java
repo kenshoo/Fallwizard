@@ -4,6 +4,7 @@ import com.bericotech.fallwizard.auth.SpringSecurityAuthProvider;
 import com.bericotech.fallwizard.configuration.FallwizardConfiguration;
 import com.bericotech.fallwizard.configuration.SpringConfiguration;
 import com.bericotech.fallwizard.configuration.SpringPropertyPlaceholderConfigurerConfiguration;
+import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.health.HealthCheck;
 import io.dropwizard.Application;
 import io.dropwizard.lifecycle.Managed;
@@ -33,9 +34,9 @@ import java.util.Map;
  * @author Justin McCune  (update to 1.2)
  * Date: 12/14/13
  */
-public class FallwizardService<T extends FallwizardConfiguration> extends Application<T> {
+public class FallwizardApplication<T extends FallwizardConfiguration> extends Application<T> {
 
-    private static final Logger logger = LoggerFactory.getLogger(FallwizardService.class);
+    private static final Logger logger = LoggerFactory.getLogger(FallwizardApplication.class);
 
     // If a prefix is missing on the location of an Application Context file
     // the default resource type will be a file.
@@ -46,6 +47,7 @@ public class FallwizardService<T extends FallwizardConfiguration> extends Applic
 
     @Override
     public void initialize(Bootstrap<T> bootstrap) {
+        applicationContext.getBeanFactory().registerResolvableDependency(MetricRegistry.class, bootstrap.getMetricRegistry());
     }
 
     @Override
