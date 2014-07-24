@@ -31,7 +31,7 @@ repositories {
 
 dependencies {
 
-    ext.dropwizardversion = '0.7.0'
+    ext.dropwizardversion = '0.7.1'
     ext.springIoPlatfromVersion = '1.0.1.RELEASE'
 
 
