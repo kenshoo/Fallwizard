@@ -20,7 +20,7 @@ __Maven Dependency__
   <dependency>
     <groupId>com.bericotech</groupId>
     <artifactId>Fallwizard</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
   </dependency>
 </dependencies>
 ```
@@ -50,6 +50,9 @@ Spring -> Fall <- Drop...wizard.  Get it?  (Ok, it's corny.)
 
 ## Changelog
 
+#### Release 2.0.1
+
+* Updates the generated pom in preparation for upload to maven central
 
 #### Release 2.0.0
 
