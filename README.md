@@ -19,18 +19,11 @@ __Maven Dependency__
 <dependencies>
   <dependency>
     <groupId>com.bericotech</groupId>
-    <artifactId>fallwizard</artifactId>
-    <version>1.3.0</version>
+    <artifactId>Fallwizard</artifactId>
+    <version>2.0.0</version>
   </dependency>
 </dependencies>
 ```
-__Maven Archetype (Fallwizard Quickstart)__
-```bash
-mvn archetype:generate  \
-  -DarchetypeCatalog=http://nexus.bericotechnologies.com/content/repositories/releases/archetype-catalog.xml
-```
-
-**Importante!:** - the Fallwizard 1.1 archetype is in the package `com.berico`; this is deprecated and only available as a courtesy to those who have not read this message.  New users should use use the archetype with the package `com.bericotech`, which uses Fallwizard v1.2 (LATEST).
 
 ## Why?
 
@@ -58,6 +51,17 @@ Spring -> Fall <- Drop...wizard.  Get it?  (Ok, it's corny.)
 ## Changelog
 
 
+#### Release 2.0.0
+
+* Updated to the lastest dropwizard (0.7.1)!
+* Updated spring dependencies to use [Spring IO Platform](http://platform.spring.io/platform/) version 1.0.1.RELEASE
+* Updated to use gradle 2.0
+
+#### Release 1.3.0
+
+* Adds properties files into the spring context so that you can use PropertyPlaceholderConfigurer in your contexts
+* Fixed a bug that was keeping certain spring security configurations from having a servlet filter applied
+ 
 #### Release 1.2.0
 
 * Fixed a bug with the bean profiles
@@ -77,15 +81,6 @@ Spring -> Fall <- Drop...wizard.  Get it?  (Ok, it's corny.)
 
 ## Related
 
-__We have a Maven Archetype for Fallwizard!__
-
-```bash
-mvn archetype:generate  \
-  -DarchetypeCatalog=http://nexus.bericotechnologies.com/content/repositories/releases/archetype-catalog.xml
-```
-
-Select `fallwizard-archetype` from the list.
-
 __One of our engineers, Travis, has developed a Gradle Plugin for building Dropwizard projects__
 
 https://github.com/Berico-Technologies/dropwizard-gradle-plugin
@@ -97,13 +92,14 @@ https://github.com/Berico-Technologies/dropwizard-gradle-plugin
 
 #### Fallwizard Conventions
 
-Instead of using Dropwizard's `Service` and `Configuration` classes, you should extend (if you want) `FallwizardService` and `FallwizardConfiguration`.  If you set your configuration values and wireup your resources in Spring, you actually don't need to extend `FallwizardService` (just specify this as your main class in Maven/Gradle).
+Instead of using Dropwizard's `Application` and `Configuration` classes, you should extend (if you want) `FallwizardApplication` and `FallwizardConfiguration`.  If you set your configuration values and wireup your resources in Spring, you actually don't need to extend `FallwizardApplication` (just specify this as your main class in Maven/Gradle).
 
-If you need to add Dropwizard bundles to your service, you will need to extend `FallwizardService`; please remember to call `super` on any method you override.
+If you need to add Dropwizard bundles to your service, you will need to extend `FallwizardApplication`; please remember to call `super` on any method you override.
 
 #### Yaml Configuration
 
 ```yaml
+
 # Spring Specific Configuration
 spring:
     # Application Contexts to Load.
@@ -237,7 +233,7 @@ If you don't like our stuff and prefer to just using Spring Security, you will n
 
 #### Initialize your Spring Application Context.
 
-Initialize your Spring Application Context in your Dropwizard `Service` class.  We explicitly require the location of the `applicationContext` in our Dropwizard `Configuration` class.
+Initialize your Spring Application Context in your Dropwizard `Application` class.  We explicitly require the location of the `applicationContext` in our Dropwizard `Configuration` class.
 
 ```java
 SpringConfiguration springConfig = configuration.getSpringConfiguration();
