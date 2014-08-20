@@ -8,12 +8,13 @@ apply plugin: 'groovy'
 version = '2.0.0'
 group = 'com.bericotech'
 
+
 buildscript {
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.1.4.RELEASE'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.1.5.RELEASE'
     }
 }
 
@@ -28,6 +29,7 @@ repositories {
     }
     maven { url 'https://repo.spring.io/libs-snapshot'}
 }
+
 
 dependencies {
 
@@ -51,15 +53,23 @@ dependencies {
 
 
     testCompile("junit:junit:4.10")
-
-
 }
+
 
 uploadArchives {
     def berico_nexusPassword = project.hasProperty('berico_nexusPassword') ? "$berico_nexusPassword" : ''
     def berico_nexusUsername = project.hasProperty('berico_nexusUsername') ? "$berico_nexusUsername" : ''
     repositories {
         mavenDeployer {
+            // see: https://github.com/Berico-Technologies/Fallwizard/issues/15
+            // see: http://stackoverflow.com/questions/23665976/unable-to-publish-to-local-maven-repo-when-using-gradle-and-spring-boot
+            pom.project {
+                parent {
+                    groupId 'org.springframework.boot'
+                    artifactId 'spring-boot-starter-parent'
+                    version '1.1.5.RELEASE'
+                }
+            }
             repository(url: "http://nexus.bericotechnologies.com/content/repositories/releases/") {
                 authentication(userName: berico_nexusUsername, password: berico_nexusPassword)
             }
@@ -69,7 +79,3 @@ uploadArchives {
         }
     }
 }
-
-
-
-
