@@ -125,6 +125,13 @@ uploadArchives {
                     }
                 }
             }
+            // when we're ready to publish to Maven Central, use this repository instead
+            // (make sure a project has been created for us first!)
+            // see: http://central.sonatype.org/pages/ossrh-guide.html#create-a-ticket-with-sonatype
+            //
+            //repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+            //    authentication(userName: sonatypeUsername, password: sonatypePassword)
+            //}
             repository(url: "http://nexus.bericotechnologies.com/content/repositories/releases/") {
                 authentication(userName: berico_nexusUsername, password: berico_nexusPassword)
             }
