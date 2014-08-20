@@ -3,7 +3,7 @@ apply plugin: 'maven'
 apply from: "intellij.gradle"
 apply plugin: 'spring-boot'
 apply plugin: 'groovy'
-
+apply plugin: 'signing'
 
 version = '2.0.0'
 group = 'com.bericotech'
@@ -56,11 +56,40 @@ dependencies {
 }
 
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from 'build/docs/javadoc'
+}
+
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+
+artifacts {
+    archives jar
+
+    archives javadocJar
+    archives sourcesJar
+}
+
+
+signing {
+    sign configurations.archives
+}
+
+
 uploadArchives {
     def berico_nexusPassword = project.hasProperty('berico_nexusPassword') ? "$berico_nexusPassword" : ''
     def berico_nexusUsername = project.hasProperty('berico_nexusUsername') ? "$berico_nexusUsername" : ''
     repositories {
         mavenDeployer {
+
+            // see: http://yennicktrevels.com/blog/2013/10/11/automated-gradle-project-deployment-to-sonatype-oss-repository/
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
             // see: https://github.com/Berico-Technologies/Fallwizard/issues/15
             // see: http://stackoverflow.com/questions/23665976/unable-to-publish-to-local-maven-repo-when-using-gradle-and-spring-boot
             pom.project {
@@ -68,6 +97,32 @@ uploadArchives {
                     groupId 'org.springframework.boot'
                     artifactId 'spring-boot-starter-parent'
                     version '1.1.5.RELEASE'
+                }
+                name 'Fallwizard'
+                packaging 'jar'
+                description 'Allows dropwizard users to use the Spring Framework'
+                url 'https://github.com/Berico-Technologies/Fallwizard'
+                scm {
+                    url 'scm:git@github.com:Berico-Technologies/Fallwizard.git'
+                    connection 'scm:git@github.com:Berico-Technologies/Fallwizard.git'
+                    developerConnection 'scm:git@github.com:Berico-Technologies/Fallwizard.git'
+                }
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'berico-rclayton'
+                        name 'Richard Clayton'
+                    }
+                    developer {
+                        id 'jar349'
+                        name 'John Ruiz'
+                    }
                 }
             }
             repository(url: "http://nexus.bericotechnologies.com/content/repositories/releases/") {
