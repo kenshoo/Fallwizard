@@ -1,26 +1,17 @@
 # Fallwizard
 
-[![Build Status](https://travis-ci.org/tlpinney/Fallwizard.png)](https://travis-ci.org/tlpinney/Fallwizard)
+[![Build Status](https://travis-ci.org/Fallwizard/Fallwizard.svg)](https://travis-ci.org/Fallwizard/Fallwizard)
 
 
 Leveraging the best of the Spring Framework and Dropwizard.
 
 __Maven Dependency__
 ```xml
-<repositories>
-  <repository>
-    <id>nexus.bericotechnologies.com</id>
-    <name>Berico Technologies Nexus</name>
-    <url>http://nexus.bericotechnologies.com/content/groups/public</url>
-    <releases><enabled>true</enabled></releases>
-  </repository>
-</repositories>
-
 <dependencies>
   <dependency>
-    <groupId>com.bericotech</groupId>
+    <groupId>io.github.fallwizard</groupId>
     <artifactId>Fallwizard</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.2</version>
   </dependency>
 </dependencies>
 ```
@@ -42,6 +33,16 @@ So, what's up with the name?
 
 Spring -> Fall <- Drop...wizard.  Get it?  (Ok, it's corny.)
 
+## Why not Spring Boot?
+
+Right up front, let us say that we love Spring Boot.  Remember, though, that Fallwizard (and Dropwizard) predate Spring Boot.
+
+So not only do we wish to keep supporting Fallwizard, we find that some things are still easier with dropwizard than Spring Boot:
+* Packaging into RPMs / DEBs
+* Ops: Healthchecks, Metrics, etc.
+
+So it really just depends on your own preferences and the legacy of your already-in-production projects.
+
 ## Features
 
 * Define Resources, Healthchecks, Tasks, etc. in Spring, and have them automatically bootstrapped in Dropwizard.
@@ -49,6 +50,11 @@ Spring -> Fall <- Drop...wizard.  Get it?  (Ok, it's corny.)
 * Automatically inject a Spring Security UserDetails object into REST methods using Dropwizard's `@Auth` annotation.
 
 ## Changelog
+
+#### Release 2.0.2
+
+* The first release to be uploaded to maven central
+* **NOTE:** All namespaces have been changed from com.bericotech to io.github.fallwizard
 
 #### Release 2.0.1
 
@@ -86,7 +92,7 @@ Spring -> Fall <- Drop...wizard.  Get it?  (Ok, it's corny.)
 
 __One of our engineers, Travis, has developed a Gradle Plugin for building Dropwizard projects__
 
-https://github.com/Berico-Technologies/dropwizard-gradle-plugin
+https://github.com/Fallwizard/dropwizard-gradle-plugin
 
 
 ## Using Fallwizard

@@ -1,4 +1,4 @@
-package com.bericotech.fallwizard.configuration;
+package io.github.fallwizard.configuration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;

@@ -1,4 +1,4 @@
-package com.bericotech.fallwizard.auth;
+package io.github.fallwizard.auth;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

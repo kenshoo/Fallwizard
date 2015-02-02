@@ -1,4 +1,4 @@
-package com.bericotech.fallwizard.auth;
+package io.github.fallwizard.auth;
 
 import com.sun.jersey.api.core.HttpContext;
 import com.sun.jersey.api.model.Parameter;

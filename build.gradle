@@ -82,8 +82,7 @@ signing {
 
 
 uploadArchives {
-    def berico_nexusPassword = project.hasProperty('berico_nexusPassword') ? "$berico_nexusPassword" : ''
-    def berico_nexusUsername = project.hasProperty('berico_nexusUsername') ? "$berico_nexusUsername" : ''
+
     repositories {
         mavenDeployer {
 
@@ -101,11 +100,11 @@ uploadArchives {
                 name 'Fallwizard'
                 packaging 'jar'
                 description 'Allows dropwizard users to use the Spring Framework'
-                url 'https://github.com/Berico-Technologies/Fallwizard'
+                url 'https://github.com/Fallwizard/Fallwizard'
                 scm {
-                    url 'scm:git@github.com:Berico-Technologies/Fallwizard.git'
-                    connection 'scm:git@github.com:Berico-Technologies/Fallwizard.git'
-                    developerConnection 'scm:git@github.com:Berico-Technologies/Fallwizard.git'
+                    url 'scm:git@github.com:Fallwizard/Fallwizard.git'
+                    connection 'scm:git@github.com:Fallwizard/Fallwizard.git'
+                    developerConnection 'scm:git@github.com:Fallwizard/Fallwizard.git'
                 }
                 licenses {
                     license {
@@ -116,7 +115,7 @@ uploadArchives {
                 }
                 developers {
                     developer {
-                        id 'berico-rclayton'
+                        id 'rclayton'
                         name 'Richard Clayton'
                     }
                     developer {
@@ -128,16 +127,10 @@ uploadArchives {
             // when we're ready to publish to Maven Central, use this repository instead
             // (make sure a project has been created for us first!)
             // see: http://central.sonatype.org/pages/ossrh-guide.html#create-a-ticket-with-sonatype
-            //
-            //repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-            //    authentication(userName: sonatypeUsername, password: sonatypePassword)
-            //}
-            repository(url: "http://nexus.bericotechnologies.com/content/repositories/releases/") {
-                authentication(userName: berico_nexusUsername, password: berico_nexusPassword)
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
             }
-            snapshotRepository(url: "http://nexus.berico.us/content/repositories/snapshots/") {
-                authentication(userName: berico_nexusUsername, password: berico_nexusPassword)
-            }
+
         }
     }
 }

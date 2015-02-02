@@ -1,9 +1,9 @@
-package com.bericotech.fallwizard;
+package io.github.fallwizard;
 
-import com.bericotech.fallwizard.auth.SpringSecurityAuthProvider;
-import com.bericotech.fallwizard.configuration.FallwizardConfiguration;
-import com.bericotech.fallwizard.configuration.SpringConfiguration;
-import com.bericotech.fallwizard.configuration.SpringPropertyPlaceholderConfigurerConfiguration;
+import io.github.fallwizard.auth.SpringSecurityAuthProvider;
+import io.github.fallwizard.configuration.FallwizardConfiguration;
+import io.github.fallwizard.configuration.SpringConfiguration;
+import io.github.fallwizard.configuration.SpringPropertyPlaceholderConfigurerConfiguration;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.health.HealthCheck;
 import io.dropwizard.Application;

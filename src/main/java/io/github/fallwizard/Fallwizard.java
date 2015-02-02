@@ -1,6 +1,6 @@
-package com.bericotech.fallwizard;
+package io.github.fallwizard;
 
-import com.bericotech.fallwizard.configuration.FallwizardConfiguration;
+import io.github.fallwizard.configuration.FallwizardConfiguration;
 
 /**
  * If you have no need to supply custom configuration or functionality

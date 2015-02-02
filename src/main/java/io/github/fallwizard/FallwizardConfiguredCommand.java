@@ -1,7 +1,7 @@
-package com.bericotech.fallwizard;
+package io.github.fallwizard;
 
-import com.bericotech.fallwizard.configuration.FallwizardConfiguration;
-import com.bericotech.fallwizard.configuration.SpringConfiguration;
+import io.github.fallwizard.configuration.FallwizardConfiguration;
+import io.github.fallwizard.configuration.SpringConfiguration;
 import io.dropwizard.cli.ConfiguredCommand;
 import io.dropwizard.setup.Bootstrap;
 import net.sourceforge.argparse4j.inf.Namespace;
