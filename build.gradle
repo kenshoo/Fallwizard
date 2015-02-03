@@ -128,9 +128,8 @@ uploadArchives {
             // (make sure a project has been created for us first!)
             // see: http://central.sonatype.org/pages/ossrh-guide.html#create-a-ticket-with-sonatype
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: sonatypeUsername, password: sonatypePassword)
+                authentication(userName: project.property("sonatypeUsername"), password: project.property("sonatypePassword"))
             }
-
         }
     }
 }
