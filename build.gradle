@@ -77,7 +77,9 @@ artifacts {
 
 
 signing {
-    sign configurations.archives
+    if (project.hasProperty("signing.shouldSign")) {
+        sign configurations.archives
+    }
 }
 
 
@@ -87,7 +89,9 @@ uploadArchives {
         mavenDeployer {
 
             // see: http://yennicktrevels.com/blog/2013/10/11/automated-gradle-project-deployment-to-sonatype-oss-repository/
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+            if (project.hasProperty("signing.shouldSign")) {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+            }
 
             // see: https://github.com/Berico-Technologies/Fallwizard/issues/15
             // see: http://stackoverflow.com/questions/23665976/unable-to-publish-to-local-maven-repo-when-using-gradle-and-spring-boot
