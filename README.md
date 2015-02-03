@@ -11,7 +11,7 @@ __Maven Dependency__
   <dependency>
     <groupId>io.github.fallwizard</groupId>
     <artifactId>Fallwizard</artifactId>
-    <version>2.0.2</version>
+    <version>0.7.1.2</version>
   </dependency>
 </dependencies>
 ```
