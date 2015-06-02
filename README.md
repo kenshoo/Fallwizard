@@ -2,8 +2,6 @@
 
 [![Build Status](https://travis-ci.org/Fallwizard/Fallwizard.svg)](https://travis-ci.org/Fallwizard/Fallwizard)
 
-I like candy!!!
-
 Leveraging the best of the Spring Framework and Dropwizard.
 
 __Maven Dependency__
@@ -12,7 +10,7 @@ __Maven Dependency__
   <dependency>
     <groupId>io.github.fallwizard</groupId>
     <artifactId>Fallwizard</artifactId>
-    <version>0.7.1.2</version>
+    <version>0.8.1.0</version>
   </dependency>
 </dependencies>
 ```
@@ -36,7 +34,7 @@ Spring -> Fall <- Drop...wizard.  Get it?  (Ok, it's corny.)
 
 ## Why not Spring Boot?
 
-Right up front, let us say that we love Spring Boot.  Remember, though, that Fallwizard (and Dropwizard) predate Spring Boot.
+Right up front, allow us say that we love Spring Boot.  Remember, though, that Fallwizard (and Dropwizard) predate Spring Boot.
 
 So not only do we wish to keep supporting Fallwizard, we find that some things are still easier with dropwizard than Spring Boot:
 * Packaging into RPMs / DEBs
@@ -51,6 +49,13 @@ So it really just depends on your own preferences and the legacy of your already
 * Automatically inject a Spring Security UserDetails object into REST methods using Dropwizard's `@Auth` annotation.
 
 ## Changelog
+
+#### Relase 0.8.1.0
+
+* We changed our versioning scheme to track the version of dropwizard that we're compiling against (currently 0.8.1)
+* We've updated our Spring IO Platform dependency to 1.1.2.RELEASE
+* Cleaned up our gradle build script 
+* Compiled against JDK 1.7 instead of 1.8 to support folks still on JDK 1.7
 
 #### Release 2.0.2
 
