@@ -21,13 +21,7 @@ buildscript {
 
 repositories {
     mavenCentral()
-    maven {
-        url = "http://maven.springframework.org/release"
-    }
-    maven {
-        url = "http://maven.springframework.org/milestone"
-    }
-    maven { url 'https://repo.spring.io/libs-snapshot'}
+    maven { url 'https://repo.spring.io/release'}
 }
 
 
