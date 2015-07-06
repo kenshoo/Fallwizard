@@ -61,6 +61,28 @@ public class SpringPropertyPlaceholderConfigurerConfiguration extends Configurat
     @JsonProperty
     private Boolean ignoreUnresolvablePlaceholders=null;
 
+	/**
+	 * Allow the system environment variables
+	 * to be searched to resolve properties. This only works in
+	 * conjunction with the systemPropertiesModeNames of
+	 * SYSTEM_PROPERTIES_MODE_FALLBACK and
+	 * SYSTEM_PROPERTIES_MODE_OVERRIDE
+	 */
+    @Valid
+    @JsonProperty
+    private Boolean searchSystemEnvironment=null;
+
+	/**
+	 * Allows configuration of the system properties mode name, which
+	 * configures whether system environment properties can override properties
+	 * defined within the YAML placeholder. Valid values are
+	 * SYSTEM_PROPERTIES_MODE_NEVER, SYSTEM_PROPERTIES_MODE_FALLBACK and
+	 * SYSTEM_PROPERTIES_MODE_OVERRIDE, and SYSTEM_PROPERTIES_MODE_FALLBACK
+	 * is the default behaviour.
+	 */
+    @Valid
+    @JsonProperty
+    private String systemPropertiesModeName=null;
 
     @Valid
     @JsonProperty
@@ -100,6 +122,14 @@ public class SpringPropertyPlaceholderConfigurerConfiguration extends Configurat
         if (ignoreResourceNotFound!=null) {
             implementation.setIgnoreResourceNotFound(ignoreResourceNotFound);
         }
+
+		if (searchSystemEnvironment!=null) {
+			implementation.setSearchSystemEnvironment(searchSystemEnvironment);
+		}
+
+		if (systemPropertiesModeName!=null) {
+			implementation.setSystemPropertiesModeName(systemPropertiesModeName);
+		}
 
         if (localOverride!=null) {
             implementation.setLocalOverride(localOverride);
@@ -162,6 +192,15 @@ public class SpringPropertyPlaceholderConfigurerConfiguration extends Configurat
 
     public Boolean isIgnoreResourceNotFound() {
         return ignoreResourceNotFound;
+    }
+
+
+    public Boolean isSearchSystemEnvironment() {
+		return searchSystemEnvironment;
+	}
+
+    public String getSystemPropertiesModeName() {
+        return systemPropertiesModeName;
     }
 
     public String getFileEncoding() {
