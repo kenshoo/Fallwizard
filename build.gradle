@@ -5,7 +5,7 @@ apply plugin: 'spring-boot'
 apply plugin: 'groovy'
 apply plugin: 'signing'
 
-version = '0.8.1.0'
+version = '0.8.4.0'
 group = 'io.github.fallwizard'
 
 sourceCompatibility = '1.7'
@@ -27,12 +27,10 @@ repositories {
     maven { url 'http://repo.spring.io/release'}
 }
 
-
 dependencies {
 
-    ext.dropwizardVersion = '0.8.1'
+    ext.dropwizardVersion = '0.8.4'
     ext.springIoPlatformVersion = '1.1.2.RELEASE'
-    ext.jerseyVersion = '1.19'
 
     versionManagement ("io.spring.platform:platform-versions:${ext.springIoPlatformVersion}@properties")
 
@@ -48,11 +46,6 @@ dependencies {
     compile 'org.springframework.security:spring-security-config'
     compile 'org.springframework:spring-beans'
     compile 'org.springframework:spring-context'
-
-    // jersey
-    compile "com.sun.jersey:jersey-core:${jerseyVersion}"
-    compile "com.sun.jersey:jersey-server:${jerseyVersion}"
-
 
     testCompile("junit:junit:4.10")
 }
